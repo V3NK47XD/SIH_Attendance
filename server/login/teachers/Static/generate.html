@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP</title>
+</head>
+<body>
+    
+    <h1 id="otp"></h1>
+    <button id="generate" type="button">Generate OTP</button>
+</body>
+<script>
+    document.getElementById('generate').addEventListener('click', async () => {
+        const response = await fetch('/generate_otp', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+        });
+        const data = await response.json();
+        document.getElementById('otp').innerText = data.otp;
+    });
+</script>
+</html>
