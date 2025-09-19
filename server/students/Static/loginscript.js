@@ -1,5 +1,11 @@
-const msg = document.getElementById("message");
+import { session } from "./session_token.js";
 
+const ses_name = await session();
+if (ses_name != "0") {
+    window.location.href = "/middle";
+}
+
+const msg = document.getElementById("message");
 const submit=document.getElementById("submit");
 
 async function getStatus(){
@@ -22,10 +28,11 @@ async function send() {
     message.innerHTML = status.message;
     if (status.session_key != null) {
         localStorage.setItem("session_key", status.session_key);
-        window.location.href = "/otp";
+        window.location.href = "/middle";
     }
 
 }
+
 
 submit.addEventListener("click", () => {
     send();

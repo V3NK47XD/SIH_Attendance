@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>TimeTable</h1>
+    <label for="day">Choose a day:</label>
+    <select id="day">
+        <option value="Monday">MONDAY</option>
+        <option value="Tuesday">TUESDAY</option>
+        <option value="Wednesday">WEDNESDAY</option>
+        <option value="Thursday">THURSDAY</option>
+        <option value="Friday">FRIDAY</option>
+        <option value="Saturday">SATURDAY</option>
+    </select>
+    <button id="fetch">Fetch Timetable</button>
+
+    <h2>Results:</h2>
+    <div id="timetable"></div> <!-- table will be injected here -->
+</body>
+
+<script type="module">
+    import { session } from "./static/session_token.js";
+
+    const ses_name = await session();
+    console.log("Session Name :", ses_name);
+
+    if (ses_name == "0") {
+        window.location.href = "/login";
+    }
+
+    const buton = document.getElementById("fetch");
+    buton.addEventListener("click", get_timetable);
+
+    async function get_timetable() {
+        const day = document.getElementById("day").value; 
+        const timetable_data = await fetch('/timetable_api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ roll: ses_name, day: day })
+        });
+
+        let timetable_json = await timetable_data.json();
+        console.log(timetable_json);
+
+        renderTable(timetable_json);
+    }
+
+    function renderTable(data) {
+        let tableHTML = `
+            <table border="1" cellpadding="5" cellspacing="0">
+                <tr>
+                    <th>Class</th>
+                    <th>Start Time</th>
+                    <th>Duration</th>
+                    <th>Class Name</th>
+                    <th>Subject</th>
+                </tr>
+        `;
+
+        for (let i = 1; i <= 6; i++) {
+            const cls = data[`class${i}`];
+            if (cls && cls[`class${i}_start`] !== null) {
+                tableHTML += `
+                    <tr>
+                        <td>Class ${i}</td>
+                        <td>${cls[`class${i}_start`]}</td>
+                        <td>${cls[`class${i}_duration`]}</td>
+                        <td>${cls[`class${i}_name`]}</td>
+                        <td>${cls["subject"]}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        tableHTML += `</table>`;
+
+        document.getElementById("timetable").innerHTML = tableHTML;
+    }
+</script>
+</html>

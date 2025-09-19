@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>Go to Timetable</button>
+    <button>Go to Mark Attendance</button>
+    <h1>
+        Welcome, <span id="name"></span>
+    </h1>
+</body>
+
+<script type="module">
+    import { session } from "./static/session_token.js";
+
+    const ses_name = await session();
+    console.log("Session Name :", ses_name);
+    document.getElementById("name").innerText = ses_name;
+    const btns = document.getElementsByTagName("button");
+    btns[0].addEventListener("click",()=>{
+        window.location.href = "/timetable";
+    });
+    btns[1].addEventListener("click",()=>{
+        window.location.href = "/otp";
+    });
+</script>
+</html>

@@ -23,15 +23,17 @@ def convert(img):
 
 def face_check():
     import face_recognition
-
+    '''
     img1_path = "facev3.heic"
     img2_path = "facev4.heic"
 
     # Convert HEIC → PNG
     img1_png = convert(img1_path)
-    img2_png = convert(img2_path)
+    img2_png = convert(img2_path)'''
 
     # Load converted PNGs using absolute path
+    img1_png = r"C:\Users\VenkatPrashad\Coding\Projects\AttendanceBackend\images\face3.png"
+    img2_png = r"C:\Users\VenkatPrashad\Coding\Projects\AttendanceBackend\images\face10.png"
     img1 = face_recognition.load_image_file(img1_png)
     img2 = face_recognition.load_image_file(img2_png)
 

@@ -9,7 +9,7 @@ def sessioncreate(username):
     conn.commit()
     return key
 
-def sessioncheck(key):
+def sessionchecker(key):
     import sqlalchemy
     engine = sqlalchemy.create_engine('sqlite:///Databases/sessions.db', echo=True)
     conn = engine.connect()
@@ -18,7 +18,7 @@ def sessioncheck(key):
     if result == []:
         return False
     else:
-        return True
+        return result[0][0]
 
 def logout(key):
     import sqlalchemy

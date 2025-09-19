@@ -3,6 +3,7 @@ from login import Login
 from register import Register
 import json
 import sessions
+import timetable_fetch
 
 app = flask.Flask(__name__)
 app.static_folder = './Static'
@@ -44,21 +45,38 @@ def logoutbackend():
     sessions.logout(session_key)
     return "Logged out successfully."
 
-@app.route('/sessioncheck',methods=['GET'])
+@app.route('/sessioncheck',methods=['POST'])
 def sessioncheck():
-    session_key = sessions.sessioncheck('session_key')
-    print("Session Key:", session_key)
-    if sessions.sessioncheck(session_key):
-        return 1
+    key=flask.request.get_data().decode('utf-8')
+    print("Key :", key )
+    session_exists = sessions.sessionchecker(key)
+    print("Session :", session_exists)
+    if session_exists:
+        return session_exists
     else:
-        return 0
+        return "0"
+
+@app.route('/middle',methods=['GET'])
+def middle():
+    return flask.send_from_directory(app.static_folder, 'Pages/middle.html')
+
 @app.route('/otp',methods=['GET'])
 def otp():
     return flask.send_from_directory(app.static_folder, 'Pages/otp_input.html')
+
+@app.route('/timetable',methods=['GET'])
+def timetable():
+    return flask.send_from_directory(app.static_folder, 'Pages/timetable.html')
+
+@app.route('/timetable_api',methods=['POST'])
+def timetable_api():
+    fetch_json = flask.request.get_json()
+    timetable_data = timetable_fetch.get_data(fetch_json['roll'], fetch_json['day'])
+    return timetable_data
 
 @app.route('/',methods=['GET'])
 def index():
     return flask.send_from_directory(app.static_folder, 'nothing.html')
 
-app.run(debug=True,port=6969)
+app.run(debug=True,port=6969,host="0.0.0.0")
  

@@ -30,4 +30,4 @@ def verify_otp():
         return jsonify({"status": "fail", "message": "OTP is invalid or expired!"})
 
 if __name__ == "__main__":
-    app.run(debug=True,port=7979)
+    app.run(debug=True,port=7979,host="0.0.0.0")
