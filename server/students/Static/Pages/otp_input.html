@@ -5,11 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    #photo{
+        display: none;
+    }
+</style>
 <body>
     <input type="number" id="otp" name="otp" required>
     <button id="submit" type="button">Submit OTP</button>
     <h1 id="message"></h1>
+    <button id="photo">PROCEED</button>
 
 </body>
 <script src="./static/pages/otpscript.js" defer type="module"></script>
+<script>
+    document.getElementById("photo").onclick = function() {
+        window.location.href = "/photo";
+    };
+</script>
 </html>

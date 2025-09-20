@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Take Picture</title>
+  <style>
+    video, canvas {
+      border: 2px solid black;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Webcam Capture 📸</h2>
+<button id="save">Save as PNG</button>
+  <video id="video" width="640" height="480" autoplay></video>
+  <button id="snap">Take Photo</button>
+  <canvas id="canvas" width="640" height="480"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const snap = document.getElementById('snap');
+    const context = canvas.getContext('2d');
+
+    const saveBtn = document.getElementById('save');
+
+    // Access webcam
+    navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(err => {
+      console.error("Error accessing webcam: ", err);
+    });
+    
+    // Take picture
+    snap.addEventListener('click', () => {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    });
+    saveBtn.addEventListener('click', () => {
+      // Convert canvas content to PNG base64
+      const dataURL = canvas.toDataURL('image/png');
+    
+      // Create a link and trigger download
+      const link = document.createElement('a');
+      link.href = dataURL;
+      console.log(dataURL)
+      link.click();
+    });
+    </script>
+</body>
+</html>

@@ -4,6 +4,7 @@ from register import Register
 import json
 import sessions
 import timetable_fetch
+import classroom 
 
 app = flask.Flask(__name__)
 app.static_folder = './Static'
@@ -73,6 +74,27 @@ def timetable_api():
     fetch_json = flask.request.get_json()
     timetable_data = timetable_fetch.get_data(fetch_json['roll'], fetch_json['day'])
     return timetable_data
+
+@app.route('/verify_class',methods=['POST'])
+def classroom_page():
+    ip = flask.request.remote_addr
+    ip=str(ip)
+    roll = flask.request.get_json()['name']
+    print("IP Address:", ip)
+    #ret = classroom.classroom(roll, ip)
+    ret = classroom.classroom("02", "192.168.82")
+    return json.dumps(ret)
+
+@app.route('/photo',methods=['GET'])
+def photo():
+    return flask.send_from_directory(app.static_folder, 'Pages/photo.html')
+    
+@app.route('/photo_upload',methods=['POST'])
+def photo_upload():
+    data = flask.request.get_json()
+    print("Photo Data Received")
+    # Here, you would typically process and save the photo data
+    return "Photo received successfully."
 
 @app.route('/',methods=['GET'])
 def index():
