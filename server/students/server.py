@@ -85,7 +85,8 @@ def classroom_page():
     roll = flask.request.get_json()['name']
     print("IP Address:", ip)
     #ret = classroom.classroom(roll, ip)
-    ret = classroom.classroom("02", "192.168.82")
+    ret = classroom.classroom("02", "192.168.81")
+    print(ret)
     return json.dumps(ret)
 
 @app.route('/photo_upload',methods=['POST'])
@@ -93,7 +94,7 @@ def photo_upload():
     data = flask.request.get_json()
     dataURL = data['image']
     roll = data['name']
-    print("Roll Number :", roll)
+    #print(dataURL[0:30])  # Print the beginning of the data URL for verification
     result_face = photo_handle.face_compare(roll, dataURL)
     print(result_face)
     # Here, you would typically process and save the photo data
@@ -108,5 +109,5 @@ def photo():
 def index():
     return flask.send_from_directory(app.static_folder, 'nothing.html')
 
-app.run(debug=True,port=6969,host="0.0.0.0")
+app.run(debug=True,port=6969,host="0.0.0.0",ssl_context=('server.crt', 'server.key'))
  

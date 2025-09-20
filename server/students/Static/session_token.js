@@ -1,5 +1,7 @@
+import ipaddr from "./ip.js"
+
 async function session(){
-    const st = await fetch('/sessioncheck', {
+    const st = await fetch(`https://${ipaddr}:6969/sessioncheck`, {
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'

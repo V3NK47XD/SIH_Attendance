@@ -24,7 +24,7 @@
 
 <script type="module">
     import { session } from "./static/session_token.js";
-
+    import ipaddr from "./static/ip.js"
     const ses_name = await session();
     console.log("Session Name :", ses_name);
 
@@ -37,7 +37,7 @@
 
     async function get_timetable() {
         const day = document.getElementById("day").value; 
-        const timetable_data = await fetch('/timetable_api', {
+        const timetable_data = await fetch(`https://${ipaddr}:6969/timetable_api`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

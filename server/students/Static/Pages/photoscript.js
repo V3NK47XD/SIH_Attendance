@@ -1,4 +1,5 @@
 import { session } from "../session_token.js";
+import ipaddr from "./ip.js"
 
     const ses_name = await session();
     console.log("Session Name :", ses_name);
@@ -25,6 +26,8 @@ const video = document.getElementById('video');
     
     // Take picture
     snap.addEventListener('click', () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
     });
     saveBtn.addEventListener('click', () => {
@@ -37,7 +40,7 @@ const video = document.getElementById('video');
     
     async function send_url(ses_name,dataURL) {
         console.log("url",dataURL);
-        const response = await fetch('http://localhost:6969/photo_upload', {
+        const response = await fetch(`https://${ipaddr}:6969/photo_upload`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({'name': ses_name, 'image': dataURL})

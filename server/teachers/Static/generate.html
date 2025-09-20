@@ -10,9 +10,10 @@
     <h1 id="otp"></h1>
     <button id="generate" type="button">Generate OTP</button>
 </body>
-<script>
+<script type="module">
+    import ipaddr from "./static/ip.js"
     document.getElementById('generate').addEventListener('click', async () => {
-        const response = await fetch('/generate_otp', {
+        const response = await fetch(`https://${ipaddr}:7979/generate_otp`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
         });

@@ -1,5 +1,6 @@
-const msg = document.getElementById("message");
+import ipaddr from "./ip.js"
 
+const msg = document.getElementById("message");
 const submit=document.getElementById("submit");
 
 async function getStatus(){
@@ -11,7 +12,7 @@ async function getStatus(){
 async function send() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    const lol = await fetch('/registerbackend', {
+    const lol = await fetch(`https://${ipaddr}:6969/registerbackend`, {
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'

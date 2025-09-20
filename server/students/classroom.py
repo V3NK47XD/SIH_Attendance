@@ -5,7 +5,7 @@ def classroom(roll, ip):
     now = datetime.now()
     today = now.strftime("%A")
     today = "Monday"  # debug override
-
+    print(ip)
     ip_to_class = {
         "192.168.81": 'A',
         "192.168.82": 'B',

@@ -1,4 +1,5 @@
 import { session } from "./session_token.js";
+import ipaddr from "./ip.js"
 
 const ses_name = await session();
 if (ses_name != "0") {
@@ -9,7 +10,7 @@ const msg = document.getElementById("message");
 const submit=document.getElementById("submit");
 
 async function getStatus(){
-    st = await fetch('/status');
+    st = await fetch(`https://${ipaddr}:6969/status`);
     const status = await st.text();
     res.innerHTML = status;
 }
@@ -17,7 +18,7 @@ async function getStatus(){
 async function send() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    const lol = await fetch('/loginbackend', {
+    const lol = await fetch(`https://${ipaddr}:6969/loginbackend`, {
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'

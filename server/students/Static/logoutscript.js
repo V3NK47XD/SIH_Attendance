@@ -1,5 +1,7 @@
+import ipaddr from "./ip.js"
+
 const sessionKey = localStorage.getItem("session_key"); // get it first
-fetch('/logoutbackend', {
+fetch(`https://${ipaddr}:6969/logoutbackend`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({'session_key': sessionKey})
