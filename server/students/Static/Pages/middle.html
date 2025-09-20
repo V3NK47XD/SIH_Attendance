@@ -18,6 +18,9 @@
 
     const ses_name = await session();
     console.log("Session Name :", ses_name);
+    if (ses_name == "0") {
+        window.location.href = "/login";
+    }
     document.getElementById("name").innerText = ses_name;
     const btns = document.getElementsByTagName("button");
     btns[0].addEventListener("click",()=>{

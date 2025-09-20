@@ -5,8 +5,11 @@ import json
 import sessions
 import timetable_fetch
 import classroom 
+import photo_handle
+from flask_cors import CORS
 
 app = flask.Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.static_folder = './Static'
 
 @app.route('/login',methods=['GET'])
@@ -85,16 +88,21 @@ def classroom_page():
     ret = classroom.classroom("02", "192.168.82")
     return json.dumps(ret)
 
+@app.route('/photo_upload',methods=['POST'])
+def photo_upload():
+    data = flask.request.get_json()
+    dataURL = data['image']
+    roll = data['name']
+    print("Roll Number :", roll)
+    result_face = photo_handle.face_compare(roll, dataURL)
+    print(result_face)
+    # Here, you would typically process and save the photo data
+    return flask.jsonify({"message":result_face })
+
 @app.route('/photo',methods=['GET'])
 def photo():
     return flask.send_from_directory(app.static_folder, 'Pages/photo.html')
     
-@app.route('/photo_upload',methods=['POST'])
-def photo_upload():
-    data = flask.request.get_json()
-    print("Photo Data Received")
-    # Here, you would typically process and save the photo data
-    return "Photo received successfully."
 
 @app.route('/',methods=['GET'])
 def index():
