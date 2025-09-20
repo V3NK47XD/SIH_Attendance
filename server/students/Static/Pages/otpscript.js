@@ -6,6 +6,7 @@ import { session } from "../session_token.js";
     if (ses_name == "0") {
         window.location.href = "/login";
     }
+verify_class();
 
 document.getElementById("submit").addEventListener("click", async () => {
     const otp = document.getElementById("otp").value;
@@ -15,10 +16,18 @@ document.getElementById("submit").addEventListener("click", async () => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({'otp': otp})
     }); 
-    const msg= document.getElementById("message");
     const result = await response.json();
     if (result.message == "OTP is valid!") {
-        const class_valid = await fetch('/verify_class', {
+        
+    }
+    else{
+        alert("Invalid OTP. Please try again.");
+    }
+});
+
+async function verify_class(){
+    const msg= document.getElementById("message");
+    const class_valid = await fetch('/verify_class', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({'name':ses_name})
@@ -36,8 +45,4 @@ document.getElementById("submit").addEventListener("click", async () => {
         else {
             msg.innerText = "You are not in the correct class. Please go to the correct class to mark attendance.";
         }
-    }
-    else{
-        alert("Invalid OTP. Please try again.");
-    }
-});
+}
